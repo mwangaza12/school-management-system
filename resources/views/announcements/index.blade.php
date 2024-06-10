@@ -1,6 +1,32 @@
-@extends('layouts.students')
+@extends(Auth::user()->role == 'student' ? 'layouts.students' : 'layouts.admin')
 
 @section('main-content')
+@if (Auth::user()->role == 'student')
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Announcements</h1>
+    <table class="min-w-full bg-white border mt-4">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">ID</th>
+                <th class="py-2 px-4 border-b">Title</th>
+                <th class="py-2 px-4 border-b">Body</th>
+                <th class="py-2 px-4 border-b">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($announcements as $announcement)
+                <tr>
+                    <td class="py-2 px-4 border-b">{{ $announcement->id }}</td>
+                    <td class="py-2 px-4 border-b">{{ $announcement->title }}</td>
+                    <td class="py-2 px-4 border-b">{{ $announcement->body }}</td>
+                    <td class="py-2 px-4 border-b">
+                        <a href="{{ route('announcements.show', $announcement->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Show</a>
+                    </td>
+                </tr>
+                @endforeach
+        </tbody>
+    </table>
+@else
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Announcements</h1>
         <a href="{{ route('announcements.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Announcement</a>
@@ -40,6 +66,7 @@
             </tbody>
         </table>
     </div>
+@endif
 @endsection
 
 

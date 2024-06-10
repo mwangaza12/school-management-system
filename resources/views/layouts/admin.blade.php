@@ -20,13 +20,14 @@
                 <h2 class="text-2xl font-semibold">Admin Dashboard</h2>
             </div>
             <nav class="flex-grow px-6">
-                <a href="{{route('dashboard')}}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Dashboard</a>
-                <a href="{{route('users.index')}}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Users</a>
-                <a href="{{ route('students.index')}}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Students</a>
-                <a href="{{ route('teachers.index')}}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Teachers</a>
-                <a href="{{ route('schools.index')}}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Schools</a>
-                <a href="{{ route('departments.index')}}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Departments</a>
-                <a href="{{ route('courses.index')}}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Courses</a>
+                <a href="/dashboard" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Dashboard</a>
+                <a href="/users" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Users</a>
+                <a href="/students" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Students</a>
+                <a href="/teachers" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Teachers</a>
+                <a href="/schools" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Schools</a>
+                <a href="/departments" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Departments</a>
+                <a href="/courses" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Courses</a>
+                <a href="/announcements" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Announcements</a>
                 <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Settings</a>
             </nav>
             <div class="px-6 py-4">

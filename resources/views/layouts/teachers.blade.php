@@ -21,6 +21,7 @@
                         <ul class="mt-6 leading-10">
                             <li><a href="/dashboard" class="nav-link block px-4 py-2  text-white">Dashboard</a></li>
                             <li><a href="/courses" class="nav-link block px-4 py-2  text-white">Courses</a></li>
+                            <li><a href="/course_materials" class="nav-link block px-4 py-2 text-white">Course Materials</a></li>
                             <li><a href="/students" class="nav-link block px-4 py-2  text-white">Students</a></li>
                             <li><a href="/grades" class="nav-link block px-4 py-2  text-white">Grades</a></li>
                             <li><a href="/assignments" class="nav-link block px-4 py-2 text-white">Assignment</a></li>
