@@ -7,8 +7,8 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h1 class="text-3xl font-bold mb-4">{{ $assignment->title }}</h1>
                 <p class="text-gray-700 mb-4"><strong>Description:</strong> {{ $assignment->description }}</p>
-                <p class="text-gray-700 mb-4"><strong>Due Date:</strong> {{ $assignment->due_date->format('F j, Y, g:i a') }}</p>
-                <p class="text-gray-700 mb-4"><strong>Unit:</strong> {{ $assignment->unit->name }}</p>
+                <p class="text-gray-700 mb-4"><strong>Due Date:</strong> {{ $assignment->due_date}}</p>
+                <p class="text-gray-700 mb-4"><strong>Unit:</strong> {{ $assignment->course->name }}</p>
                 
                 <div class="flex items-center justify-between mt-6">
                     <a href="{{ route('assignments.edit', $assignment->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Edit Assignment</a>

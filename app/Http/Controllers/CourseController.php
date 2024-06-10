@@ -18,9 +18,9 @@ class CourseController extends Controller
     {
         if(Auth::user()->role == 'admin'){
         $courses = DB::table('courses')
-        ->join('departments', 'courses.department_id', '=', 'departments.id')
-        ->select('courses.id as id', 'courses.name as name','courses.code as code', 'courses.description as description','departments.name as department_name')
-        ->simplePaginate(10);
+            ->join('departments', 'courses.department_id', '=', 'departments.id')
+            ->select('courses.id as id', 'courses.name as name','courses.code as code', 'courses.description as description','departments.name as department_name')
+            ->simplePaginate(10);
         return view('courses.index',compact('courses'));
         }elseif(Auth::user()->role == 'teacher'){
             $teacherId = Auth::user()->id; // Assuming the authenticated user is the teacher

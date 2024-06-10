@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
+use App\Models\Course;
 use App\Models\Unit;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -12,15 +15,25 @@ class AssignmentController extends Controller
     public function index()
     {
         
-        $assignments = Assignment::with('unit')->get();
+        $assignments = Assignment::with('course')->get();
         return view('assignments.index', compact('assignments'));
     }
 
     public function create()
     {
         if(auth()->user()->role == 'teacher'){
-            $units = Unit::all();
-            return view('assignments.create', compact('units'));
+            $teacherId = Auth::user()->id; // Assuming the authenticated user is the teacher
+            $teacher = User::find($teacherId);
+            
+            if ($teacher && $teacher->department) {
+                // Get distinct courses taught in the teacher's department
+                $courses = $teacher->department->courses()->distinct()->get();
+                return view('assignments.create', compact('courses'));
+            } else {
+                // Handle case where the teacher or the department is not found
+                return redirect()->back()->with('error', 'Teacher or department not found');
+            }
+            return view('assignments.create', compact('courses'));
         }
         
     }
@@ -31,7 +44,7 @@ class AssignmentController extends Controller
             'title' => 'required',
             'description' => 'nullable',
             'due_date' => 'required|date',
-            'unit_id' => 'required|exists:units,id',
+            'course_id' => 'required|exists:courses,id',
         ]);
 
         Assignment::create($request->all());

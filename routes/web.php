@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/api/assignments', function() {
-    return Assignment::with('unit')
+    return Assignment::with('course')
         ->get()
         ->map(function($assignment) {
             return [

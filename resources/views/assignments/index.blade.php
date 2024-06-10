@@ -52,7 +52,7 @@
                                     <p class="text-gray-900 whitespace-no-wrap">{{ $assignment->due_date }}</p>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{ $assignment->unit->name }}</p>
+                                    <p class="text-gray-900 whitespace-no-wrap">{{ $assignment->course->name }}</p>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                     <a href="{{ route('assignments.show', $assignment->id) }}" class="text-indigo-600 hover:text-indigo-900 mx-2">View</a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CourseMaterial;
 use App\Models\Course;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,17 @@ class CourseMaterialController extends Controller
     public function create()
     {
         if(Auth::user()->role == 'teacher'){
-            $courses = Course::all();
+            $teacherId = Auth::user()->id; // Assuming the authenticated user is the teacher
+            $teacher = User::find($teacherId);
+            
+            if ($teacher && $teacher->department) {
+                // Get distinct courses taught in the teacher's department
+                $courses = $teacher->department->courses()->distinct()->get();
+                return view('course_materials.create', compact('courses'));
+            } else {
+                // Handle case where the teacher or the department is not found
+                return redirect()->back()->with('error', 'Teacher or department not found');
+            }
             return view('course_materials.create', compact('courses'));
         }
         
