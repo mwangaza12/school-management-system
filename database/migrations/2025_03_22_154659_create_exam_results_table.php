@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
             $table->integer('marks_obtained');
             $table->string('grade')->nullable();
+            $table->enum('terms',['Term 1', 'Term 2', 'Term 3']);
             $table->timestamps();
         });
     }
