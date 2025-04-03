@@ -85,8 +85,8 @@ A comprehensive, user-friendly school management system built specifically for K
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/kenyan-school-management.git
-cd kenyan-school-management
+git clone https://github.com/mwangaza12/school-management-system.git
+cd school-management-system
 ```
 
 2. Install dependencies
