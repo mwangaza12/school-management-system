@@ -27,6 +27,16 @@ class ExamResultResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('term')
+                ->label('Term')
+                ->options([
+                    'Term 1' => 'Term 1',
+                    'Term 2' => 'Term 2',
+                    'Term 3' => 'Term 3',
+                ])
+                ->required()
+                ->native(false),
+
                 Select::make('form_id')
                 ->relationship('form', 'year')
                 ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->year} {$record->stream->name}")
