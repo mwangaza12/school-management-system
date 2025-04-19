@@ -1,7 +1,7 @@
 # Kenyan High School Management System
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Laravel](https://img.shields.io/badge/Laravel-10.x-red.svg)
+![Laravel](https://img.shields.io/badge/Laravel-12.x-red.svg)
 ![Filament](https://img.shields.io/badge/Filament-3.x-purple.svg)
 
 A comprehensive, user-friendly school management system built specifically for Kenyan high schools. This application leverages Laravel's powerful backend and Filament's elegant admin panel to provide a complete solution for managing students, staff, finances, examinations, and more.
@@ -14,7 +14,6 @@ A comprehensive, user-friendly school management system built specifically for K
   - Student admission and enrollment workflows
   - Student photo ID generation
   - Guardian/parent contact information
-  - Automatic assignment to streams and subjects
   
 - **Examination Management**
   - KCSE exam preparation and analysis
