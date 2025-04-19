@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->string('exam_name');
+            $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
             $table->date('exam_date');
-            $table->foreignId('form_id')->constrained('forms')->onDelete('cascade');
+            $table->enum('form',['Form 1','Form 2', 'Form 3','Form 4']);
             $table->enum('term', ['Term 1', 'Term 2', 'Term 3']);
             $table->year('year')->default(date('Y'));
             $table->timestamps();

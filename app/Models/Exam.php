@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Exam extends Model
 {
     protected $fillable = [
-        'exam_name',
+        'subject_id',
         'exam_date',
-        'form_id',
+        'form',
         'term',
         'year'
     ];
 
-    public function form(): BelongsTo
+    public function subject(): BelongsTo
     {
-        return $this->belongsTo(Form::class);
+        return $this->belongsTo(Subject::class);
     }
 }

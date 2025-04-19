@@ -29,11 +29,18 @@ class ExamResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('exam_name'),
+                Select::make('subject_id')
+                ->relationship('subject','id')
+                ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->id}.  {$record->subject_code}")
+                ->required(),
                 DatePicker::make('exam_date'),
-                Select::make('form_id')
-                ->relationship('form','id')
-                ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->year} {$record->stream->name}"),
+                Select::make('form')
+                ->options([
+                    'Form 1' => 'Form 1',
+                    'Form 2' => 'Form 2',
+                    'Form 3' => 'Form 3',
+                    'Form 4' => 'Form 4',
+                ]),
                 Select::make('term')
                 ->options([
                     'Term 1' => 'Term 1',
@@ -44,8 +51,6 @@ class ExamResource extends Resource
                 ->native(false)
                 ->displayFormat('Y')
                 ->format('Y')
-                ->extraAttributes(['data-alt-format' => 'Y', 'data-date-format' => 'Y', 'data-enable-time' => 'false', 'data-no-calendar' => 'true'])
-
             ]);
     }
 
@@ -53,7 +58,11 @@ class ExamResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('exam_name')
+                TextColumn::make('subject.subject_code')
+                    ->label('Subject')
+                    ->formatStateUsing(fn ($record) => "{$record->subject->subject_code}"),
+                TextColumn::make('form'),
+                TextColumn::make('exam_date')
             ])
             ->filters([
                 //
