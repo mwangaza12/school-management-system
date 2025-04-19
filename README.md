@@ -14,7 +14,6 @@ A comprehensive, user-friendly school management system built specifically for K
   - Student admission and enrollment workflows
   - Student photo ID generation
   - Guardian/parent contact information
-  - Automatic assignment to streams and subjects
   
 - **Examination Management**
   - KCSE exam preparation and analysis
