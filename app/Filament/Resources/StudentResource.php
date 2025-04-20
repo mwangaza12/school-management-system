@@ -61,7 +61,8 @@ class StudentResource extends Resource
                 Textarea::make('address')
                     ->columnSpanFull(),
                 DatePicker::make('admission_date')
-                    ->required(),
+                    ->required()
+                    ->default(now()),
                 Select::make('status')
                     ->options([
                         'Active' => 'Active',
@@ -69,7 +70,8 @@ class StudentResource extends Resource
                         'Graduated' => 'Graduated',
                         'Expelled' => 'Expelled'
                     ])
-                    ->required(),
+                    ->required()
+                    ->default('Active'),
             ]);
     }
 
