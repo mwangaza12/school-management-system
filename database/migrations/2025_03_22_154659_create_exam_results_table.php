@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('exam_results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
+            $table->foreignId('exam_id')->constrained('exams')->onDelete('cascade');
             $table->integer('marks_obtained');
-            $table->string('grade')->nullable();
-            $table->enum('terms',['Term 1', 'Term 2', 'Term 3']);
             $table->timestamps();
         });
     }

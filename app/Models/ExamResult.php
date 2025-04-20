@@ -9,9 +9,9 @@ class ExamResult extends Model
 {
     protected $fillable = [
         'student_id',
-        'subject_id',
+        'exam_id',
+        'terms',
         'marks_obtained',
-        'grade'
     ];
 
     public function form(): BelongsTo
@@ -19,6 +19,13 @@ class ExamResult extends Model
         return $this->belongsTo(Form::class, 'form_id');
     }
 
-    
+    public function exam(): BelongsTo
+    {
+        return $this->belongsTo(Exam::class);
+    }
 
+    public function student():BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

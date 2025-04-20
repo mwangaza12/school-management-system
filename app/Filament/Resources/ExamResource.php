@@ -33,7 +33,7 @@ class ExamResource extends Resource
                 ->relationship('subject','id')
                 ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->id}.  {$record->subject_code}")
                 ->required(),
-                DatePicker::make('exam_date'),
+                TextInput::make('exam_name'),
                 Select::make('form')
                 ->options([
                     'Form 1' => 'Form 1',
@@ -62,7 +62,7 @@ class ExamResource extends Resource
                     ->label('Subject')
                     ->formatStateUsing(fn ($record) => "{$record->subject->subject_code}"),
                 TextColumn::make('form'),
-                TextColumn::make('exam_date')
+                TextColumn::make('exam_name')
             ])
             ->filters([
                 //

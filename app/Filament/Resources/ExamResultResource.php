@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ExamResultResource\Pages;
+use App\Models\Exam;
 use App\Models\ExamResult;
 use App\Models\Student;
 use Filament\Forms;
@@ -14,6 +15,8 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Hidden;
+use Filament\Tables\Columns\TextColumn;
 
 class ExamResultResource extends Resource
 {
@@ -27,46 +30,64 @@ class ExamResultResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('term')
-                ->label('Term')
-                ->options([
-                    'Term 1' => 'Term 1',
-                    'Term 2' => 'Term 2',
-                    'Term 3' => 'Term 3',
-                ])
-                ->required()
-                ->native(false),
+                Grid::make(3)
+                    ->schema([
+                        Select::make('form_id')
+                        ->relationship('form', 'year')
+                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->year} {$record->stream->name}")
+                        ->preload()
+                        ->required()
+                        ->live()
+                        ->reactive()
+                        ->afterStateUpdated(fn ($state, callable $set) => 
+                            $set('exam_results', Student::where('form_id', $state)
+                                ->get()
+                                ->map(fn ($student) => [
+                                    'student_id' => $student->id,
+                                    'student_name' => $student->first_name . ' ' . $student->last_name,
+                                    'marks_obtained' => null
+                                ])
+                                ->toArray()
+                            )
+                        ),
 
-                Select::make('form_id')
-                ->relationship('form', 'year')
-                ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->year} {$record->stream->name}")
-                ->preload()
-                ->required()
-                ->live()
-                ->reactive()
-                ->afterStateUpdated(fn ($state, callable $set) => 
-                    $set('exam_marks', Student::where('form_id', $state)
-                        ->get()
-                        ->map(fn ($student) => [
-                            'student_id' => $student->id,
-                            'student_name' => $student->first_name . ' ' . $student->last_name,
-                            'marks_obtained' => null
-                        ])
-                        ->toArray()
-                    )
-                ),
+                        Select::make('exam_id')
+                        ->label('Exam')
+                        ->options(Exam::pluck('exam_name', 'id'))
+                        ->required()
+                        ->reactive()
+                        ->afterStateUpdated(fn ($state, $get, $set) => 
+                            $set('exam_results', collect($get('exam_results'))
+                                ->map(fn ($item) => [
+                                    ...$item,
+                                    'exam_id' => $state,
+                                    'exam_name' => Exam::find($state)?->exam_name,
+                                ])
+                                ->toArray()
+                            )
+                        )
+                ]),
+                
 
-                Repeater::make('exam_marks')
+                Repeater::make('exam_results')
                     ->label('Exam Marks')
                     ->schema([
                         Grid::make(3)
                             ->schema([
+                                Hidden::make('student_id')
+                                ->dehydrated(true),
+                                
                                 TextInput::make('student_name')
                                     ->label('Student Name')
-                                    ->disabled(), // Automatically filled with student name
+                                    ->disabled()
+                                    ->dehydrated(false),
 
-                                TextInput::make('student_id')
-                                    ->hidden(), // Store student ID but keep it hidden
+                                TextInput::make('exam_name')
+                                ->label('Exam')
+                                ->disabled(),
+
+                                Hidden::make('exam_id')
+                                ->dehydrated(true),
 
                                 TextInput::make('marks_obtained')
                                     ->label('Marks')
@@ -76,9 +97,9 @@ class ExamResultResource extends Resource
                                     ->required(),
                             ]),
                     ])
-                    ->defaultItems(0) // Initially empty
+                    ->defaultItems(0)
                     ->columnSpanFull()
-                    ->addActionLabel('Add Student Mark')
+                    ->addable(false)
                     ->reactive(),
 
             ]);
@@ -88,13 +109,36 @@ class ExamResultResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('student_name')
+                ->label('Student Name')
+                ->getStateUsing(fn ($record) => $record->student?->first_name . ' ' . $record->student?->last_name)
+                ->searchable(query: function ($query, $search) {
+                    $query->whereHas('student', function ($q) use ($search) {
+                        $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%");
+                    });
+                }),
+
+                TextColumn::make('exam_id')
+                ->label('Exam name')
+                ->formatStateUsing(fn($record) =>                   $record->exam->exam_name),
+                TextColumn::make('marks_obtained')
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                ->modalHeading('Edit Exam Result')
+                ->modalSubmitActionLabel('Save Changes')
+                ->form([
+                    TextInput::make('marks_obtained')
+                        ->label('Marks')
+                        ->numeric()
+                        ->minValue(0)
+                        ->maxValue(100)
+                        ->required(),
+        ]),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
@@ -108,6 +152,7 @@ class ExamResultResource extends Resource
     {
         return [
             'index' => Pages\ManageExamResults::route('/'),
+            'create' => Pages\CreateExamResult::route('/create'),
         ];
     }
 }

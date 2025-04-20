@@ -9,7 +9,7 @@ class Exam extends Model
 {
     protected $fillable = [
         'subject_id',
-        'exam_date',
+        'exam_name',
         'form',
         'term',
         'year'
